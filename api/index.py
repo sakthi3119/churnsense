@@ -10,5 +10,9 @@ if project_root not in sys.path:
 # Import the Flask app
 from app import app as application
 
+# This is required for Vercel
+if __name__ == "__main__":
+    application.run()
+
 # Handle the root path
 application = application

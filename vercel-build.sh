@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Install Python 3.9
-pyenv install 3.9.0
-pyenv global 3.9.0
+python3.9 -m pip install --upgrade pip
 
-# Install dependencies
-pip install -r requirements.txt
+# Install build dependencies
+pip install --upgrade setuptools wheel
+
+# Install requirements
+pip install -r requirements.txt --target .
 
 # Create necessary directories
 mkdir -p static

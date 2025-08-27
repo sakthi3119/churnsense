@@ -5,7 +5,8 @@
       "src": "api/index.py",
       "use": "@vercel/python@6.0.0",
       "config": { 
-        "pythonVersion": "3.9"
+        "pythonVersion": "3.9",
+        "maxLambdaSize": "50mb"
       }
     },
     {
