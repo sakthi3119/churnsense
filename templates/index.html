@@ -3,68 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Churn Prediction</title>
+    <title>ChurnSense - Customer Churn Prediction</title>
     <link rel="stylesheet" href="/static/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h1>Customer Churn Prediction</h1>
-            <form action="/predict" method="post" id="predictionForm">
-                <div class="form-group">
-                    <label for="contract">Contract</label>
-                    <select id="contract" name="contract" required>
-                        <option value="1">Month-to-month</option>
-                        <option value="0">Others</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="totalcharges">Total Charges</label>
-                    <input type="number" id="totalcharges" name="totalcharges" step="0.01" placeholder="Enter total charges" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="onlinesecurity">Online Security</label>
-                    <select id="onlinesecurity" name="onlinesecurity" required>
-                        <option value="1">No</option>
-                        <option value="0">Yes</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="techsupport">Tech Support</label>
-                    <select id="techsupport" name="techsupport" required>
-                        <option value="1">No</option>
-                        <option value="0">Yes</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="internetservice">Internet Service</label>
-                    <select id="internetservice" name="internetservice" required>
-                        <option value="1">Fiber optic</option>
-                        <option value="0">Others</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn">Predict</button>
-            </form>
-            <div id="loader" class="hidden">
-                <div class="spinner"></div>
-                <p>Processing your prediction...</p>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1><i class="fas fa-chart-line"></i> ChurnSense</h1>
+                <p class="tagline">Predict customer churn with AI-powered analytics</p>
             </div>
-            <div id="result">
-                {% if prediction %}
-                    <p>Prediction: {{ prediction }}</p>
-                    <p>Confidence: {{ confidence }}%</p>
-                {% endif %}
+        </header>
+
+        <main class="main-content">
+            <div class="card prediction-card">
+                <div class="card-header">
+                    <h2>Churn Prediction</h2>
+                    <p>Fill in the details below to predict customer churn</p>
+                </div>
+                
+                <form id="predictionForm" class="prediction-form">
+                    <div class="form-grid">
+                        <!-- Contract Field -->
+                        <div class="form-group">
+                            <div class="form-icon">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="form-content">
+                                <label for="contract">Contract Type</label>
+                                <select id="contract" name="contract" required>
+                                    <option value="" disabled selected>Select contract type</option>
+                                    <option value="1">Month-to-month</option>
+                                    <option value="2">One year</option>
+                                    <option value="3">Two year</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Total Charges Field -->
+                        <div class="form-group">
+                            <div class="form-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="form-content">
+                                <label for="totalcharges">Total Charges ($)</label>
+                                <input type="number" id="totalcharges" name="totalcharges" step="0.01" required 
+                                       placeholder="Enter total charges" min="0">
+                            </div>
+                        </div>
+
+                        <!-- Online Security Field -->
+                        <div class="form-group">
+                            <div class="form-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="form-content">
+                                <label for="onlinesecurity">Online Security</label>
+                                <select id="onlinesecurity" name="onlinesecurity" required>
+                                    <option value="" disabled selected>Select security option</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                    <option value="2">No internet service</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Tech Support Field -->
+                        <div class="form-group">
+                            <div class="form-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="form-content">
+                                <label for="techsupport">Tech Support</label>
+                                <select id="techsupport" name="techsupport" required>
+                                    <option value="" disabled selected>Select support option</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                    <option value="2">No internet service</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Internet Service Field -->
+                        <div class="form-group">
+                            <div class="form-icon">
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                            <div class="form-content">
+                                <label for="internetservice">Internet Service</label>
+                                <select id="internetservice" name="internetservice" required>
+                                    <option value="" disabled selected>Select service type</option>
+                                    <option value="1">DSL</option>
+                                    <option value="2">Fiber optic</option>
+                                    <option value="0">No internet service</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-predict">
+                        <span class="btn-text">Predict Churn</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
             </div>
-        </div>
-        <footer>
-            Built by <strong>SAKTHIVEL M</strong><br> II AIDS B <br> SRI ESHWAR COLLEGE OF ENGINEERING
+
+            <div id="result" class="card result-card hidden">
+                <div class="result-header">
+                    <h3>Prediction Result</h3>
+                    <div id="result-icon" class="result-icon"></div>
+                </div>
+                <div class="result-content">
+                    <p id="prediction" class="prediction-text"></p>
+                    <div class="confidence-meter">
+                        <div class="confidence-label">Confidence Level:</div>
+                        <div class="confidence-bar">
+                            <div id="confidence-bar-fill" class="confidence-bar-fill"></div>
+                        </div>
+                        <div id="confidence" class="confidence-value"></div>
+                    </div>
+                    <button id="new-prediction" class="btn btn-new">
+                        <i class="fas fa-redo"></i> New Prediction
+                    </button>
+                </div>
+            </div>
+
+            <div id="loader" class="loader-container hidden">
+                <div class="loader">
+                    <div class="spinner"></div>
+                    <p>Analyzing customer data...</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2025 ChurnSense | AI-Powered Churn Prediction</p>
+            <p>Developed by SAKTHIVEL MANIKANDAN</p>
+            <!-- <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <span class="divider">•</span>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <span class="divider">•</span>
+                <a href="#" class="footer-link">Contact Us</a>
+            </div> -->
         </footer>
     </div>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>

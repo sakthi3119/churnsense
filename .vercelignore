@@ -1,0 +1,39 @@
+# Ignore everything by default
+*
+
+# Include necessary files and directories
+!api/
+!static/
+!templates/
+!app.py
+!requirements.txt
+!vercel.json
+!runtime.txt
+!vercel-build.sh
+!mlmodel.sav
+!wsgi.py
+!api/index.py
+
+# Exclude development and system files
+.git/
+.gitignore
+.vscode/
+.idea/
+__pycache__/
+venv/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+*.log
+*.sqlite3
+*.ipynb
+*.csv
+*.xlsx
+.env*
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+node_modules/
