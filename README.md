@@ -9,14 +9,96 @@ ChurnSense is a web application that predicts customer churn using machine learn
 - Confidence level visualization
 - Detailed prediction results
 - Mobile-friendly design
+- Serverless deployment with Vercel
 
 ## Prerequisites
 
-- Python 3.8+
+- Python 3.9 (required for Vercel deployment)
 - pip (Python package manager)
-- Virtual environment (recommended)
+- Vercel account (for deployment)
+- Git (for version control)
 
-## Installation
+## Local Development
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd Customer-Churn-Prediction-Project
+   ```
+
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the application locally:
+   ```bash
+   python app.py
+   ```
+
+## Vercel Deployment
+
+1. Install Vercel CLI:
+   ```bash
+   npm install -g vercel
+   ```
+
+2. Login to your Vercel account:
+   ```bash
+   vercel login
+   ```
+
+3. Deploy to Vercel:
+   ```bash
+   vercel
+   ```
+
+4. Follow the prompts to complete the deployment.
+
+## Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
+```
+# Flask configuration
+FLASK_ENV=production
+SECRET_KEY=your-secret-key
+```
+
+## Project Structure
+
+```
+.
+├── api/                  # API routes
+│   └── index.py         # API entry point
+├── static/              # Static files (CSS, JS, images)
+├── templates/           # HTML templates
+├── app.py               # Main application
+├── requirements.txt     # Python dependencies
+├── vercel.json         # Vercel configuration
+├── vercel-build.sh     # Build script
+└── runtime.txt         # Python version specification
+```
+
+## Troubleshooting
+
+- If you encounter module import errors, ensure all dependencies are installed
+- Check the Vercel deployment logs for specific error messages
+- Make sure all required files are included in the deployment (check `.vercelignore`)
+
+## License
+
+This project is licensed under the MIT License.
+
+## Support
+
+For support, please open an issue in the GitHub repository.
 
 1. Clone the repository:
    ```bash

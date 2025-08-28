@@ -6,8 +6,7 @@
       "use": "@vercel/python@5.0.0",
       "config": {
         "pythonVersion": "3.9",
-        "maxLambdaSize": "50mb",
-        "runtime": "python3.9"
+        "maxLambdaSize": "50mb"
       }
     },
     {
@@ -18,5 +17,12 @@
   "routes": [
     { "src": "/static/(.*)", "dest": "/static/$1" },
     { "src": "/(.*)", "dest": "/api/index.py" }
-  ]
+  ],
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.9",
+      "PIP_ONLY_BINARY": ":all:",
+      "PIP_INDEX_URL": "https://pypi.org/simple"
+    }
+  }
 }

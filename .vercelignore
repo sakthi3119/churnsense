@@ -8,16 +8,49 @@
 !app.py
 !requirements.txt
 !vercel.json
-!runtime.txt
 !vercel-build.sh
-!mlmodel.sav
+!runtime.txt
 !wsgi.py
-!api/index.py
+!mlmodel.sav
+!model.sav
 
-# Exclude development and system files
+# Ignore Python cache and build files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ignore virtual environments and environment files
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Ignore development files
 .git/
 .gitignore
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Ignore local data files
+*.csv
+*.xlsx
+*.sav
+TelecomChurn.csv
+TelecomChurn.xlsx
+copy.csv
+first_telc.csv
 .idea/
 __pycache__/
 venv/

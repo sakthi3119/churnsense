@@ -7,13 +7,14 @@ project_root = str(Path(__file__).parent)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# Import the Flask app
-from app import app
+# Import the Flask app from api/index
+from api.index import app as application
 
 # This is required for Vercel
-application = app
+def handler(event, context):
+    return application(event, context)
 
 # This is for local development
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    application.run(host='0.0.0.0', port=port, debug=True)

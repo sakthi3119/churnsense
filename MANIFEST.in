@@ -1,0 +1,8 @@
+include requirements.txt
+include vercel-build.sh
+include vercel.json
+include runtime.txt
+recursive-include static *
+recursive-include templates *
+include *.sav
+include *.csv
