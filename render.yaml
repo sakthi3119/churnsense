@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: churnsense
+    env: python
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install setuptools wheel
+      pip install -e .
+    startCommand: gunicorn --worker-tmp-dir /dev/shm wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.13
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHONUNBUFFERED
+        value: true
+      - key: PYTHONDONTWRITEBYTECODE
+        value: 1
+      - key: PIP_NO_CACHE_DIR
+        value: off
+      - key: PIP_DISABLE_PIP_VERSION_CHECK
+        value: on
+    build:
+      useComposefile: false
+    plan: free
+    numInstances: 1
+    healthCheckPath: /
+    autoDeploy: true
+        value: production

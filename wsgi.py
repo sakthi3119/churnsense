@@ -7,8 +7,8 @@ project_root = str(Path(__file__).parent)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# Import the Flask app from api/index
-from api.index import app as application
+# Import the Flask app from app
+from app import app as application
 
 # This is required for Vercel
 def handler(event, context):
