@@ -5,7 +5,7 @@ set -e
 
 # Install system dependencies
 apt-get update
-apt-get install -y python3.9 python3.9-venv
+apt-get install -y python3.9 python3.9-venv python3.9-dev
 
 # Create and activate virtual environment
 python3.9 -m venv /tmp/venv
