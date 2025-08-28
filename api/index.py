@@ -10,13 +10,13 @@ sys.path.insert(0, project_root)
 from app import app
 
 # This is required for Vercel
-app = app
+application = app
 
 # This is the Vercel serverless function handler
-# It will be used when the app is deployed on Vercel
 def handler(request, context):
-    return app(request.environ, lambda status, headers: [])
+    return application(request.environ, lambda status, headers: [])
 
 # This is for local development
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    application.run(host='0.0.0.0', port=port, debug=True)
