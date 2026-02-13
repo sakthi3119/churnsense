@@ -10,6 +10,10 @@ if project_root not in sys.path:
 # Import the Flask app from the root app.py
 from app import app
 
+# Warm up the model immediately for serverless environments
+from model_loader import warm_up_model
+warm_up_model()
+
 # This is required for Vercel
 application = app
 

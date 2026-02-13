@@ -1,32 +1,56 @@
 from flask import Flask, request, jsonify, render_template
-import pickle
 import numpy as np
 import os
 from datetime import datetime
+from model_loader import get_model, warm_up_model, is_model_ready, get_model_status
 
 app = Flask(__name__)
 
-# Load the trained model
-model_path = os.path.join(os.path.dirname(__file__), 'mlmodel.sav')
-try:
-    model = pickle.load(open(model_path, 'rb'))
-    print("Model loaded successfully!")
-except Exception as e:
-    print(f"Error loading model: {e}")
-    model = None
-
 # Feature names for reference
 FEATURE_NAMES = ['contract', 'totalcharges', 'onlinesecurity', 'techsupport', 'internetservice']
+
+# Warm up model on startup (loads in background thread-safe)
+@app.before_first_request
+def startup_warm_up():
+    """Load model when first request arrives (automatic warm-up)."""
+    warm_up_model()
 
 @app.route('/')
 def home():
     return render_template("index.html")
 
+@app.route('/health')
+def health():
+    """
+    Health check endpoint.
+    Returns status of model loading.
+    """
+    status = get_model_status()
+    
+    if status['status'] == 'ready':
+        return jsonify({"status": "ready"}), 200
+    elif status['status'] == 'loading':
+        return jsonify({"status": "loading"}), 503
+    else:
+        return jsonify({
+            "status": "error",
+            "error": status.get('error', 'Model not loaded')
+        }), 503
+
 @app.route('/predict', methods=["POST"])
 def predict():
+    # Get model (loads automatically if not yet loaded)
+    model = get_model()
+    
     # Check if model is loaded
     if model is None:
-        return jsonify({"error": "Model not loaded. Please try again later."}), 500
+        status = get_model_status()
+        error_message = status.get('error', 'Model not loaded. Please try again later.')
+        return jsonify({
+            "error": "Model not available",
+            "details": error_message,
+            "status": status['status']
+        }), 503
     
     try:
         # Get data from JSON request
@@ -119,9 +143,6 @@ def get_internet_service_label(value):
         "2": "Fiber optic"
     }
     return mapping.get(str(value), "Unknown")
-
-# This is required for Vercel
-app = app
 
 # This is for local development
 if __name__ == "__main__":
