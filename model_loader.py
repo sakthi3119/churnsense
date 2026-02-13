@@ -3,7 +3,7 @@ Thread-safe singleton model loader for production ML deployments.
 Handles cold starts, worker restarts, and prevents race conditions.
 """
 import os
-import joblib
+import pickle
 import threading
 from pathlib import Path
 from typing import Optional, Any
@@ -99,16 +99,10 @@ class ModelLoader:
             
             logger.info(f"Loading model from: {self._model_path}")
             
-            # Try joblib first, fall back to pickle if needed
-            try:
-                self._model = joblib.load(self._model_path)
-                logger.info("Model loaded successfully with joblib!")
-            except Exception as e:
-                logger.warning(f"Joblib load failed ({e}), trying pickle...")
-                import pickle
-                with open(self._model_path, 'rb') as f:
-                    self._model = pickle.load(f)
-                logger.info("Model loaded successfully with pickle!")
+            with open(self._model_path, 'rb') as f:
+                self._model = pickle.load(f)
+            
+            logger.info("Model loaded successfully!")
             self._load_error = None
             
         except Exception as e:
